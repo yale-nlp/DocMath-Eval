@@ -1,8 +1,12 @@
 ## DocMath-Eval
+[**🌐 Homepage**](https://docmath-eval.github.io/) | [**🤗 Dataset**](https://huggingface.co/datasets/yale-nlp/DocMath-Eval) | [**📖 arXiv**](https://arxiv.org/abs/2311.09805) | [**GitHub**](https://github.com/yale-nlp/DocMath-Eval)
+
 The data and code for the paper [DocMath-Eval: Evaluating Math Reasoning Capabilities of LLMs in Understanding Long and Specialized Documents](https://arxiv.org/abs/2311.09805). 
 **DocMath-Eval** is a comprehensive benchmark focused on numerical reasoning within specialized domains. It requires the model to comprehend long and specialized documents and perform numerical reasoning to answer the given question. 
-**DocMath-Eval** includes **4,000 QA examples** across 4 subsets. These examples were collected by financial experts and feature detailed solution annotations in Python format.
 
+<p align="center">
+<img src="figures/overview.png" width="100%">
+</p>
 
 ## DocMath-Eval Dataset
 All the data examples were divided into four subsets:
@@ -44,18 +48,41 @@ The dataset is provided in json format and contains the following attributes:
 ## Experiments
 ### Environment Setup
 The code is tested on the following environment:
+- python 3.11.5
+- CUDA 12.1, PyTorch 2.1.1
 - run `pip install -r requirements.txt` to install all the required packages
 
 ### LLM Inference on DocMath-Eval
-We provide inference scripts for running various LLMs on KnowledgeMath:
-- `scripts/run_api.sh` for running proprietary LLMs. Note that we developed a centralized API proxy to manage API calls from different organizations and unify them to be compatible with the OpenAI API. If you use the official API platform, you will need to make some modifications.
-- `scripts/run_vllm.sh` for running all other open-sourced LLMs (e.g., Llama-3, Qwen, Gemma) that are reported in the paper and supported by the [vLLM](https://github.com/vllm-project/vllm) framework
+We provide inference scripts for running various LLMs on DocMath-Eval:
+- `scripts/inference/run_retriever.sh` for running the retriever models on the complong subset to retrieve the top-n question-relevant evidence
+- `scripts/inference/run_api*.sh` for running proprietary LLMs. Note that we developed a centralized API proxy to manage API calls from different organizations and unify them to be compatible with the OpenAI API. If you use the official API platform, you will need to make some modifications.
+- `scripts/inference/run_vllm*.sh` for running all other open-sourced LLMs (e.g., Llama-3, Qwen, Gemma) that are reported in the paper and supported by the [vLLM](https://github.com/vllm-project/vllm) framework
+- `scripts/inference/run_rag_analysis.sh` for running the ablation study of RAG setting on the complong subset
 
 ### Automated Evaluation
 We develop a heuristic-based method to automatically evaluate the accuracy of CoT and PoT outputs:
-- `scripts/evaluate_all.sh` for evaluating PoT and CoT outputs
+- `scripts/evaluate_all.sh` for evaluating PoT and CoT outputs on testmini sets
+- `scripts/evaluation/evaluate_retriever_recall.sh` for evaluating the retriever recall on the complong subset
+- `scripts/evaluation/evaluate_rag_analysis.sh` for evaluating the ablation study of RAG setting on the complong subset
 
-To get the results on the test set, please send your result json file to [this email](mailto:yilun.zhao@yale.edu) (see the leaderboard section below for more details).
+### Model Output
+We provide all the model outputs reported in the paper at [Google Drive](https://drive.google.com/drive/folders/1b7m2oxgtzYispbzZylrXVWkLyeIoKxIt?usp=sharing), specifically:
+- `llm_outputs`: The CoT and PoT output from all the evaluated LLMs on both the testmini and test sets
+- `retrieved_output`: The top-n retrieved evidence from the retriever models on the complong subset
+- `rag_outputs`: The RAG outputs from the ablation study on the complong subset
+
+
+### Leaderboard Submission
+We maintain a [leaderboard](https://docmath-eval.github.io/) for the DocMath-Eval benchmark. To get the results on the test set, please send your result json file to [this email](mailto:yilun.zhao@yale.edu). The result json file should at least include these features:
+
+```
+[
+    {
+        "question_id": [string] The question id
+        "output": [string] The model output
+    }
+]
+```
 
 ## Contact
 For any issues or questions, kindly email us at: Yilun Zhao (yilun.zhao@yale.edu).
@@ -65,10 +92,10 @@ For any issues or questions, kindly email us at: Yilun Zhao (yilun.zhao@yale.edu
 If you use the **DocMath-Eval** benchmark in your work, please kindly cite the paper:
 
 ```
-@misc{zhao2023docmatheval,
-      title={DocMath-Eval: Evaluating Numerical Reasoning Capabilities of LLMs in Understanding Long Documents with Tabular Data}, 
-      author={Yilun Zhao and Yitao Long and Hongjun Liu and Linyong Nan and Lyuhao Chen and Ryo Kamoi and Yixin Liu and Xiangru Tang and Rui Zhang and Arman Cohan},
-      year={2023},
+@misc{zhao2024docmatheval,
+      title={DocMath-Eval: Evaluating Math Reasoning Capabilities of LLMs in Understanding Long and Specialized Documents}, 
+      author={Yilun Zhao and Yitao Long and Hongjun Liu and Ryo Kamoi and Linyong Nan and Lyuhao Chen and Yixin Liu and Xiangru Tang and Rui Zhang and Arman Cohan},
+      year={2024},
       eprint={2311.09805},
       archivePrefix={arXiv},
       primaryClass={cs.CL},
