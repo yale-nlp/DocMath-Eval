@@ -26,7 +26,7 @@ from datasets import load_dataset
 dataset = load_dataset("yale-nlp/DocMath-Eval")
 
 # print the first example on the complong testmini set
-print(dataset["complong-testmini"][0])
+print(dataset["complong_testmini"][0])
 ```
 
 The dataset is provided in json format and contains the following attributes:
