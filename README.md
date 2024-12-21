@@ -73,7 +73,7 @@ We provide all the model outputs reported in the paper at [Google Drive](https:/
 
 
 ### Leaderboard Submission
-We maintain a [leaderboard](https://docmath-eval.github.io/) for the DocMath-Eval benchmark. To get the results on the test set, please send your result json file to [this email](mailto:yilun.zhao@yale.edu). The result json file should at least include these features:
+We maintain a [CodaLab leaderboard](https://codalab.lisn.upsaclay.fr/competitions/21146) for the DocMath-Eval benchmark. To get the results on the test set, prepare the result json file and submit it to CodaLab Leaderboard. The result json file should at least include these features:
 
 ```
 [
