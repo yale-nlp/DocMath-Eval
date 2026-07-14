@@ -16,7 +16,7 @@ All the data examples were divided into four subsets:
 - **compshort**, which is reannotated from [TAT-HQA](https://aclanthology.org/2022.acl-long.5/), necessitates complex numerical reasoning over short document with one table;
 - **complong**, which is annotated from scratch by our team, necessitates complex numerical reasoning over long document with multiple tables.
 
-For each subset, we provide the *testmini* and *test* splits. 
+For each subset, we provide the *testmini* and *test* splits. **Update (July 2026):** the `python_solution` and `ground_truth` annotations for the *test* splits are now publicly released as well, so both splits can be evaluated locally.
 
 You can download this dataset by the following command:
 
@@ -40,8 +40,8 @@ The dataset is provided in json format and contains the following attributes:
     "paragraphs": [list] List of paragraphs and tables within the document
     "table_evidence": [list] List of indices in 'paragraphs' that are used as table evidence for the question
     "paragraph_evidence": [list] List of indices in 'paragraphs' that are used as text evidence for the question
-    "python_solution": [string] Python-format and executable solution. This feature is hidden for the test set
-    "ground_truth": [float] Executed result of 'python_solution'. This feature is hidden for the test set
+    "python_solution": [string] Python-format and executable solution
+    "ground_truth": [float] Executed result of 'python_solution'
 }
 ```
 

@@ -10,6 +10,10 @@ subsets=(
     "simplong_testmini"
     "complong_testmini"
     "complong_testmini-rag"
+    "compshort_test"
+    "simpshort_test"
+    "simplong_test"
+    "complong_test"
 )
 
 api_base="TODO"

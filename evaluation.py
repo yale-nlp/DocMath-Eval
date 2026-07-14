@@ -120,12 +120,13 @@ if __name__ == "__main__":
     os.makedirs(args.evaluation_output_dir, exist_ok=True)
     output_path = os.path.join(args.evaluation_output_dir, file_name)
     
-    if not args.ground_truth_file:
-        ground_truth_filename = args.prediction_path.split("/")[-3].split("-")[0] + ".json"
-        ground_truth_file = os.path.join("data", ground_truth_filename)
+    if args.ground_truth_file:
+        ground_truth_raw_data = json.load(open(args.ground_truth_file, "r"))
     else:
-        ground_truth_file = args.ground_truth_file
-    ground_truth_raw_data = json.load(open(ground_truth_file, "r"))
+        # Load the released ground truth for the corresponding split directly from HuggingFace
+        from datasets import load_dataset
+        split = args.prediction_path.split("/")[-3].split("-")[0]  # e.g. complong_test / complong_testmini
+        ground_truth_raw_data = list(load_dataset("yale-nlp/DocMath-Eval", split=split))
     ground_truth_data = {}
     for example in ground_truth_raw_data:
         ground_truth_data[example["question_id"]] = example
